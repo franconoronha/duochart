@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.14.0/devicon.min.css"> 
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap" rel="stylesheet">
+
+    <title>Duochart</title>
+</head>
+<body>
+    <div id="top">
+        <a href="/">
+            <h1 class="title no-select text-center">Duo<span>chart</span></h1>
+        </a>
+        <!-- <div id="help" class="no-select">?</div>
+        <div id="help-box"></div> -->
+    </div>
+
+    <form id="form" method="POST" action="/result">
+        <input spellcheck="false" type="text" name="user" id="user" placeholder="User" required>
+        <button type="submit" class="btn" onclick="showLoading()">Generate</button>
+        <input spellcheck="false" type="text" name="user_2" id="user_2" placeholder="User 2" required>
+    </form>
+
+    <div class="lds-ring" style="display: none"><div></div><div></div><div></div><div></div></div>
+
+    <script>
+        function showLoading() {
+            let user = document.getElementById('user').value
+            let user_2 = document.getElementById('user_2').value
+
+            let loading = document.querySelector('.lds-ring')
+            if(user && user_2) loading.style.display = 'block'
+        }
+    </script>

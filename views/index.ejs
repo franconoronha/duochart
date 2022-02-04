@@ -1,0 +1,8 @@
+<%- include('partials/top.ejs') %>
+<% if(error) { %>
+    <div id="error">
+        <h2>Error!</h2>
+        <p><%= user %>: <%= error %></p>
+    </div>
+<% } %>
+<%- include('partials/footer.ejs') %>

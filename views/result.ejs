@@ -1,0 +1,129 @@
+<%- include('partials/top.ejs') %>
+    <div id="result">
+		<canvas></canvas>
+
+        <div class="overlap">
+            <ol>
+                <% overlap.forEach(a => { %>      
+                        <li><%= a.name %> | f: <%= a.factor %></li>
+                <% }) %>
+            </ol>
+
+			<button id="btn-download" class="btn" disabled onclick="downloadCanvas()">Download</button>
+        </div>
+    </div>
+
+	<div style="display: none;"> 
+		<div class="user-1">
+			<h3><%= user %></h3>
+			<ol>
+				<% items.forEach(a => { %>      
+						<li><%= a.name %></li>
+				<% }) %>
+			</ol>
+		</div>
+	
+		<div class="user-2">
+			<h3><%= user_2 %></h3>
+			<ol>
+				<% items_2.forEach(a => { %>      
+						<li><%= a.name %></li>
+				<% }) %>
+			</ol>
+		</div>
+	</div>
+
+	<%- include('partials/footer.ejs') %>
+
+<style>
+	#result {
+		max-width: 100%;
+		padding-top: 50px;
+		margin-left: 80px;
+		margin-bottom: 15px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+
+	#btn-download {
+		margin-left: 20px;
+	}
+
+	.overlap {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		margin-top: 15px;
+	}
+
+	ol {
+		max-width: 300px;
+		color: #ededed;;
+		font-family: 'Outfit', sans-serif;
+	}
+
+	ol li {
+		margin-bottom: 5px;
+	}
+
+	canvas {
+		outline: 1px solid black;
+	}
+
+	.lds-ring {
+		display: inline-block;
+		position: relative;
+		width: 80px;
+		height: 80px;
+	}
+
+</style>
+
+<script>
+	let user = '<%= user %>'
+	let user_2 = '<%= user_2 %>'
+
+	document.querySelector('#user').value = user
+	document.querySelector('#user_2').value = user_2
+
+	let imglist = '<%= images %>'.split(',')
+
+	let canvas = document.querySelector('canvas')
+	let context = canvas.getContext('2d')
+
+	let rows = Math.floor(Math.sqrt(imglist.length))
+	let cols = rows
+
+	if((imglist.length >= cols ** 2 + cols) && (imglist.length < (cols + 1) ** 2)) cols+= 1
+
+	canvas.width = cols * 174
+	canvas.height = rows * 174
+
+	let mergeList = imglist.map((img, index) => ({
+		src: img,
+		x: index * 174 - (Math.trunc(index / cols) * 174 * cols),
+		y: Math.trunc(index / cols) * 174
+	}))
+
+	for(let i in mergeList) {
+		if(i > rows * cols) break;
+		let img = new Image()
+		img.crossOrigin = "Anonymous";
+		img.src = mergeList[i].src
+		img.onload = () => {
+			context.drawImage(img, mergeList[i].x, mergeList[i].y)
+		}
+	}
+
+	document.querySelector('#btn-download').removeAttribute('disabled')
+
+	function downloadCanvas() {
+		let data = new Date()
+		image = canvas.toDataURL("image/png", 0.2)
+		let link = document.createElement('a')
+		link.download = `Duochart-${user}-${user_2}-${data.getDate()}-${data.getMonth()+1}`
+		link.href = image
+		link.click()
+	}
+</script>
