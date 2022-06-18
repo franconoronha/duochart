@@ -1,4 +1,4 @@
-# Duochart
+# Duochart 🎧
 
 Duochart é uma aplicação web que cria colagens baseadas nos dados de usuários da rede social last.fm, combinando os albuns mais ouvidos de dois usuários em uma imagem.
 
